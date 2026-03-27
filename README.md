@@ -13,7 +13,7 @@
   <a href="https://www.npmjs.com/package/glance-mcp"><img src="https://img.shields.io/npm/v/glance-mcp?color=blue&label=npm" alt="npm" /></a>
   <a href="https://github.com/DebugBase/glance/blob/main/LICENSE"><img src="https://img.shields.io/github/license/DebugBase/glance" alt="License" /></a>
   <a href="https://github.com/DebugBase/glance/stargazers"><img src="https://img.shields.io/github/stars/DebugBase/glance?style=social" alt="Stars" /></a>
-  <a href="https://discord.gg/RyGk6HP7Uy"><img src="https://img.shields.io/discord/1234567890?color=5865F2&label=Discord" alt="Discord" /></a>
+  <a href="https://discord.gg/RyGk6HP7Uy"><img src="https://img.shields.io/badge/Discord-Join-5865F2?logo=discord&logoColor=white" alt="Discord" /></a>
 </p>
 
 <p align="center">
@@ -198,11 +198,12 @@ All configuration is via environment variables:
 
 ## How It Works
 
-```
-┌─────────────┐     MCP (stdio)     ┌──────────┐     Playwright     ┌─────────┐
-│ Claude Code │ ◄──────────────────► │  Glance  │ ◄────────────────► │ Browser │
-│   (Agent)   │   tools & results   │  Server  │   automation API   │ (Chrome) │
-└─────────────┘                     └──────────┘                    └─────────┘
+```mermaid
+graph LR
+    A["Claude Code<br/>(Agent)"] -- "MCP stdio<br/>tools & results" --> B["Glance<br/>(MCP Server)"]
+    B -- "Playwright<br/>automation API" --> C["Browser<br/>(Chromium)"]
+    C -- "screenshots<br/>DOM snapshots" --> B
+    B -- "inline images<br/>a11y trees" --> A
 ```
 
 1. Claude Code connects to Glance via MCP (stdio transport)
