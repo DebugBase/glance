@@ -1,0 +1,60 @@
+{
+  "name": "@debugbase/glance",
+  "version": "1.0.0",
+  "description": "AI-powered browser automation MCP server for Claude Code",
+  "main": "build/index.js",
+  "type": "module",
+  "bin": {
+    "glance": "build/index.js"
+  },
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "start": "node build/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "browser",
+    "automation",
+    "playwright",
+    "claude",
+    "claude-code",
+    "testing",
+    "screenshot",
+    "e2e",
+    "debugbase",
+    "ai-agent"
+  ],
+  "author": "DebugBase <hello@debugbase.io>",
+  "license": "MIT",
+  "homepage": "https://github.com/DebugBase/glance",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DebugBase/glance.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DebugBase/glance/issues"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "latest",
+    "pixelmatch": "^6.0.0",
+    "playwright-core": "^1.50.0",
+    "pngjs": "^7.0.0",
+    "uuid": "^9.0.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/uuid": "^9.0.7",
+    "esbuild": "^0.27.4",
+    "typescript": "^5.3.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "build",
+    "README.md",
+    "LICENSE"
+  ]
+}
