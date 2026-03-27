@@ -4,3 +4,7 @@ build/
 *.log
 .DS_Store
 .env
+
+# Internal project config (not for public repo)
+CLAUDE.md
+.claude/
