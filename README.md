@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/assets/glance-logo.svg" alt="Glance" width="80" />
+  <img src=".github/assets/glance-logo.png" alt="Glance" width="80" />
 </p>
 
 <h1 align="center">Glance</h1>
