@@ -1,5 +1,5 @@
 {
-  "name": "@debugbase/glance",
+  "name": "glance-mcp",
   "version": "1.0.0",
   "description": "AI-powered browser automation MCP server for Claude Code",
   "main": "build/index.js",

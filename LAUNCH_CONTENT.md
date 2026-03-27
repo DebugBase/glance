@@ -66,16 +66,16 @@ Built with:
 - pixelmatch for visual regression
 
 One command to install:
-npm install -g @debugbase/glance
+npm install -g glance-mcp
 
 Or add directly to Claude Code:
-claude mcp add glance -- npx @debugbase/glance
+claude mcp add glance -- npx glance-mcp
 
 ### Tweet 7 (CTA)
 Give Claude eyes. Ship faster.
 
 GitHub: github.com/DebugBase/glance
-npm: @debugbase/glance
+npm: glance-mcp
 Discord: discord.gg/RyGk6HP7Uy
 
 Star it if you find it useful. Issues and PRs welcome.
@@ -114,7 +114,7 @@ Claude Code connects to Glance over stdio. When you say "open localhost:3000 and
 **Setup is one line:**
 
 ```
-claude mcp add glance -- npx @debugbase/glance
+claude mcp add glance -- npx glance-mcp
 ```
 
 Set `BROWSER_HEADLESS=false` to watch the browser in real-time.
@@ -184,7 +184,7 @@ Security has three profiles controlling URL access, JS execution, and rate limit
 
 Tech: TypeScript, esbuild, Playwright, MCP SDK, pixelmatch, zod. MIT license.
 
-Install: `npm install -g @debugbase/glance`
+Install: `npm install -g glance-mcp`
 
 GitHub: https://github.com/DebugBase/glance
 
