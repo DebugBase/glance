@@ -8,3 +8,4 @@ build/
 # Internal project config (not for public repo)
 CLAUDE.md
 .claude/
+docs/
