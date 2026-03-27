@@ -14,13 +14,15 @@ export function initVisual(sessionsDir: string): void {
 export async function saveBaseline(name: string): Promise<string> {
   await mkdir(_baselinesDir, { recursive: true });
   const buffer = await takeScreenshot();
-  const path = join(_baselinesDir, `${name}.png`);
+  const safeName = name.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 100);
+  const path = join(_baselinesDir, `${safeName}.png`);
   await writeFile(path, buffer);
   return path;
 }
 
 export async function compareWithBaseline(name: string, sessionsDir: string): Promise<VisualCompareResult> {
-  const baselinePath = join(_baselinesDir, `${name}.png`);
+  const safeName = name.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 100);
+  const baselinePath = join(_baselinesDir, `${safeName}.png`);
 
   // Read baseline
   let baselineData: Buffer;

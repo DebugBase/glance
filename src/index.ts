@@ -44,7 +44,7 @@ async function main() {
   registerNavigationTools(server, config);
   registerInteractionTools(server);
   registerObservationTools(server, config);
-  registerTabTools(server);
+  registerTabTools(server, config);
   registerTestingTools(server, config);
   registerEventTools(server);
   registerSessionTools(server);

@@ -1,6 +1,6 @@
 {
   "name": "glance-mcp",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "AI-powered browser automation MCP server for Claude Code",
   "main": "build/index.js",
   "type": "module",
@@ -37,7 +37,7 @@
     "url": "https://github.com/DebugBase/glance/issues"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "latest",
+    "@modelcontextprotocol/sdk": "^1.28.0",
     "pixelmatch": "^6.0.0",
     "playwright-core": "^1.50.0",
     "pngjs": "^7.0.0",

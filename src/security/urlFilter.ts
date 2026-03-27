@@ -26,7 +26,17 @@ function urlMatchesAnyPattern(url: string, patterns: string[]): boolean {
   return patterns.some((p) => urlMatchesPattern(url, p));
 }
 
+const BLOCKED_SCHEMES = ['javascript:', 'data:', 'file:', 'chrome:', 'chrome-extension:', 'about:', 'blob:', 'vbscript:'];
+
 export function isUrlAllowed(url: string, security: SecurityConfig): { allowed: boolean; reason?: string } {
+  // Block dangerous URL schemes before any pattern matching
+  const lowerUrl = url.toLowerCase().trim();
+  for (const scheme of BLOCKED_SCHEMES) {
+    if (lowerUrl.startsWith(scheme)) {
+      return { allowed: false, reason: `Blocked dangerous scheme: ${scheme}` };
+    }
+  }
+
   // Check denylist first
   if (security.urlDenylist.length > 0) {
     if (urlMatchesAnyPattern(url, security.urlDenylist)) {

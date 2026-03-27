@@ -5,6 +5,9 @@ import type {
 import { runAssertion } from './assertions.js';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
+import { isUrlAllowed } from '../security/urlFilter.js';
+import { getSecurityConfig } from '../config.js';
+import type { BrowserConfig } from '../types.js';
 
 let _activeScenario: {
   scenario: TestScenario;
@@ -47,7 +50,8 @@ export async function runScenario(
   };
 
   // Create scenario screenshots directory
-  const scenarioDir = join(sessionsDir, 'scenarios', `${scenario.name.replace(/\s+/g, '-')}-${Date.now()}`);
+  const safeName = scenario.name.replace(/[^a-zA-Z0-9_-]/g, '-').slice(0, 100);
+  const scenarioDir = join(sessionsDir, 'scenarios', `${safeName}-${Date.now()}`);
   await mkdir(join(scenarioDir, 'screenshots'), { recursive: true });
 
   let failed = false;
@@ -145,6 +149,14 @@ async function executeStep(
       if (baseUrl && url.startsWith('/')) {
         url = baseUrl + url;
       }
+      // Security: block dangerous URL schemes in test scenarios
+      const security = getSecurityConfig(
+        (process.env.BROWSER_SECURITY_PROFILE as any) || 'local-dev'
+      );
+      const urlCheck = isUrlAllowed(url, security);
+      if (!urlCheck.allowed) {
+        throw new Error(`Blocked: ${urlCheck.reason}`);
+      }
       await page.goto(url, { waitUntil: 'domcontentloaded', timeout });
       break;
     }
@@ -213,7 +225,8 @@ async function executeStep(
 
     case 'screenshot': {
       const buf = await page.screenshot({ type: 'png' });
-      const path = join(scenarioDir, 'screenshots', `${index}-${step.screenshotName || step.action}.png`);
+      const safeScreenshotName = (step.screenshotName || step.action).replace(/[^a-zA-Z0-9_-]/g, '_');
+      const path = join(scenarioDir, 'screenshots', `${index}-${safeScreenshotName}.png`);
       await writeFile(path, buf);
       return path;
     }

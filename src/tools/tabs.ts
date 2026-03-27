@@ -1,8 +1,11 @@
 import { z } from 'zod';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { getPageList, newPage, selectPage, closePage } from '../browser/manager.js';
+import { isUrlAllowed, checkRateLimit } from '../security/urlFilter.js';
+import { getSecurityConfig } from '../config.js';
+import type { BrowserConfig } from '../types.js';
 
-export function registerTabTools(server: McpServer) {
+export function registerTabTools(server: McpServer, config?: BrowserConfig) {
   server.tool(
     'browser_tab_list',
     {},
@@ -20,6 +23,14 @@ export function registerTabTools(server: McpServer) {
     { url: z.string().optional().describe('URL to open in new tab') },
     async ({ url }) => {
       try {
+        // Apply URL security checks (H2 fix)
+        if (url && config) {
+          const security = getSecurityConfig(config.securityProfile);
+          const urlCheck = isUrlAllowed(url, security);
+          if (!urlCheck.allowed) {
+            return { content: [{ type: 'text' as const, text: `Blocked: ${urlCheck.reason}` }], isError: true };
+          }
+        }
         const { id, page } = await newPage();
         if (url) {
           await page.goto(url, { waitUntil: 'domcontentloaded' });

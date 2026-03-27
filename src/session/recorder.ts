@@ -37,10 +37,17 @@ export async function recordAction(
     } catch {}
   }
 
+  // Redact sensitive fields before recording
+  const safeArgs = { ...args };
+  const sensitiveKeys = ['passwordValue', 'password', 'token', 'secret', 'apiKey', 'credential'];
+  for (const key of sensitiveKeys) {
+    if (key in safeArgs) (safeArgs as any)[key] = '***REDACTED***';
+  }
+
   const action: SessionAction = {
     index,
     tool,
-    args,
+    args: safeArgs,
     timestamp: Date.now(),
     duration,
     result,

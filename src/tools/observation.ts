@@ -24,11 +24,11 @@ export function registerObservationTools(server: McpServer, config: BrowserConfi
         const buffer = await takeScreenshot({ fullPage, selector });
         const base64 = buffer.toString('base64');
 
-        // Save to disk
+        // Save to disk (path traversal protection)
         const screenshotsDir = join(config.sessionsDir, 'screenshots');
         await mkdir(screenshotsDir, { recursive: true });
-        const fileName = savePath || `screenshot-${Date.now()}.png`;
-        const filePath = savePath ? fileName : join(screenshotsDir, fileName);
+        const safeName = (savePath || `screenshot-${Date.now()}.png`).replace(/[^a-zA-Z0-9._-]/g, '_');
+        const filePath = join(screenshotsDir, safeName);
         await writeFile(filePath, buffer);
 
         const page = await getActivePage();
@@ -111,6 +111,9 @@ export function registerObservationTools(server: McpServer, config: BrowserConfi
       if (!jsCheck.allowed) {
         return { content: [{ type: 'text' as const, text: `Blocked: ${jsCheck.reason}` }], isError: true };
       }
+
+      // Audit log for security
+      console.error(`[glance] evaluate: ${script.length > 200 ? script.slice(0, 200) + '...' : script}`);
 
       try {
         const result = await evaluate(script);

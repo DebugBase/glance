@@ -44,7 +44,7 @@ export async function launchBrowser(config: BrowserConfig): Promise<void> {
 
     _context = await _browser.newContext({
       viewport: config.viewport,
-      ignoreHTTPSErrors: true,
+      ignoreHTTPSErrors: config.securityProfile === 'local-dev',
     });
 
     // Create initial page
@@ -68,7 +68,7 @@ export async function launchBrowser(config: BrowserConfig): Promise<void> {
 
       _context = await _browser.newContext({
         viewport: config.viewport,
-        ignoreHTTPSErrors: true,
+        ignoreHTTPSErrors: config.securityProfile === 'local-dev',
       });
 
       const page = await _context.newPage();
