@@ -37,36 +37,6 @@
     .code-block { background: #0a0e1a; border: 1px solid rgba(255,255,255,0.06); }
     .nav-blur { backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); background: rgba(6,8,15,0.85); }
     .hero-glow { position: relative; overflow: hidden; }
-    .hero-glow::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(900px circle at 50% -5%, rgba(59,130,246,0.18), transparent 55%),
-        radial-gradient(700px circle at 15% 50%, rgba(139,92,246,0.10), transparent 45%),
-        radial-gradient(600px circle at 85% 35%, rgba(6,182,212,0.08), transparent 45%);
-      z-index: 0;
-    }
-    .hero-glow::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px);
-      background-size: 64px 64px;
-      mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 70%);
-      -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 70%);
-      z-index: 0;
-    }
-    .hero-glow > * { position: relative; z-index: 1; }
-    .hero-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.4;
-      animation: float 8s ease-in-out infinite;
-    }
     @keyframes float {
       0%, 100% { transform: translateY(0) scale(1); }
       50% { transform: translateY(-20px) scale(1.05); }
@@ -119,12 +89,15 @@
 </nav>
 
 <!-- Hero -->
-<section class="relative min-h-[90vh] flex items-center justify-center hero-glow pt-14">
+<section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-14">
+  <!-- Background layers (real elements, not pseudo) -->
+  <div class="absolute inset-0" style="background: radial-gradient(900px circle at 50% -5%, rgba(59,130,246,0.18), transparent 55%), radial-gradient(700px circle at 15% 50%, rgba(139,92,246,0.10), transparent 45%), radial-gradient(600px circle at 85% 35%, rgba(6,182,212,0.08), transparent 45%);"></div>
+  <div class="absolute inset-0" style="background-image: linear-gradient(rgba(59,130,246,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.06) 1px, transparent 1px); background-size: 64px 64px; mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 70%);"></div>
   <!-- Floating orbs -->
-  <div class="hero-orb w-[400px] h-[400px] bg-blue-500/25 top-[5%] left-[10%]" style="animation-delay: 0s;"></div>
-  <div class="hero-orb w-[300px] h-[300px] bg-purple-500/20 top-[25%] right-[5%]" style="animation-delay: 2s;"></div>
-  <div class="hero-orb w-[350px] h-[350px] bg-cyan-500/15 bottom-[10%] left-[35%]" style="animation-delay: 4s;"></div>
-  <div class="relative text-center px-6 max-w-3xl mx-auto">
+  <div class="absolute w-[400px] h-[400px] rounded-full top-[5%] left-[10%] animate-pulse" style="background: rgba(59,130,246,0.15); filter: blur(100px);"></div>
+  <div class="absolute w-[300px] h-[300px] rounded-full top-[25%] right-[5%]" style="background: rgba(139,92,246,0.12); filter: blur(80px); animation: pulse 6s ease-in-out infinite 2s;"></div>
+  <div class="absolute w-[350px] h-[350px] rounded-full bottom-[10%] left-[35%]" style="background: rgba(6,182,212,0.10); filter: blur(90px); animation: pulse 8s ease-in-out infinite 4s;"></div>
+  <div class="relative z-10 text-center px-6 max-w-3xl mx-auto">
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/[0.06] bg-white/[0.02] text-[12px] text-gray-500 mb-8">
       <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
       Open Source &middot; MIT License &middot; 30 MCP Tools
