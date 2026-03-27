@@ -235,6 +235,33 @@ npm run build
 npm start
 ```
 
+## Claude Code Integration
+
+### Agent: `e2e-tester`
+
+Glance ships with a Claude Code agent definition for comprehensive browser testing. The agent knows all 30 tools and follows a structured test workflow: navigate, screenshot, assert, report.
+
+```
+You: "Test the entire login flow on localhost:3000"
+Agent: Opens browser → navigates → fills forms → clicks → screenshots → asserts → reports
+```
+
+### Skill: `/glance-test`
+
+Quick E2E test runner. Just provide a URL:
+
+```
+/glance-test https://myapp.com
+```
+
+The skill will:
+1. Navigate to the URL
+2. Screenshot and snapshot the page
+3. Discover all navigation links
+4. Test each page with assertions
+5. Check console for JS errors
+6. Generate a pass/fail report
+
 ## Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
