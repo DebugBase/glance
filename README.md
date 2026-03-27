@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@debugbase/glance"><img src="https://img.shields.io/npm/v/@debugbase/glance?color=blue&label=npm" alt="npm" /></a>
+  <a href="https://www.npmjs.com/package/glance-mcp"><img src="https://img.shields.io/npm/v/glance-mcp?color=blue&label=npm" alt="npm" /></a>
   <a href="https://github.com/DebugBase/glance/blob/main/LICENSE"><img src="https://img.shields.io/github/license/DebugBase/glance" alt="License" /></a>
   <a href="https://github.com/DebugBase/glance/stargazers"><img src="https://img.shields.io/github/stars/DebugBase/glance?style=social" alt="Stars" /></a>
   <a href="https://discord.gg/RyGk6HP7Uy"><img src="https://img.shields.io/discord/1234567890?color=5865F2&label=Discord" alt="Discord" /></a>
@@ -52,13 +52,13 @@ Claude: *opens browser* *navigates* *fills form* *clicks submit*
 ### 1. Install
 
 ```bash
-npm install -g @debugbase/glance
+npm install -g glance-mcp
 ```
 
 Or add directly to Claude Code:
 
 ```bash
-claude mcp add glance -- npx @debugbase/glance
+claude mcp add glance -- npx glance-mcp
 ```
 
 ### 2. Configure
@@ -70,7 +70,7 @@ Add to your `.mcp.json`:
   "mcpServers": {
     "glance": {
       "command": "npx",
-      "args": ["@debugbase/glance"],
+      "args": ["glance-mcp"],
       "env": {
         "BROWSER_HEADLESS": "false"
       }
