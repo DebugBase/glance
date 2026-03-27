@@ -13,8 +13,7 @@ await esbuild.build({
     'pngjs',
   ],
   banner: {
-    js: `#!/usr/bin/env node
-import { createRequire } from 'module';
+    js: `import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 `,
   },

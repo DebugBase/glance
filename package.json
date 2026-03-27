@@ -1,11 +1,12 @@
 {
   "name": "glance-mcp",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "AI-powered browser automation MCP server for Claude Code",
   "main": "build/index.js",
   "type": "module",
   "bin": {
-    "glance": "build/index.js"
+    "glance-mcp": "bin/glance-mcp.mjs",
+    "glance": "bin/glance-mcp.mjs"
   },
   "scripts": {
     "build": "node esbuild.config.js",
@@ -54,6 +55,7 @@
   },
   "files": [
     "build",
+    "bin",
     "README.md",
     "LICENSE"
   ]

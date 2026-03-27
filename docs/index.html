@@ -36,7 +36,45 @@
     .card:hover { border-color: rgba(59,130,246,0.2); }
     .code-block { background: #0a0e1a; border: 1px solid rgba(255,255,255,0.06); }
     .nav-blur { backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); background: rgba(6,8,15,0.85); }
-    .hero-glow { background: radial-gradient(600px circle at 50% 0%, rgba(59,130,246,0.06), transparent 70%); }
+    .hero-glow { position: relative; overflow: hidden; }
+    .hero-glow::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(900px circle at 50% -5%, rgba(59,130,246,0.18), transparent 55%),
+        radial-gradient(700px circle at 15% 50%, rgba(139,92,246,0.10), transparent 45%),
+        radial-gradient(600px circle at 85% 35%, rgba(6,182,212,0.08), transparent 45%);
+      z-index: 0;
+    }
+    .hero-glow::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 70%);
+      z-index: 0;
+    }
+    .hero-glow > * { position: relative; z-index: 1; }
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: float 8s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.05); }
+    }
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.5; }
+    }
     .node { background: rgba(15,22,41,0.8); border: 1px solid rgba(255,255,255,0.08); }
     .connector { height: 2px; background: linear-gradient(90deg, rgba(59,130,246,0.4), rgba(139,92,246,0.4)); }
     .tab-btn { transition: all 0.15s; }
@@ -81,7 +119,11 @@
 </nav>
 
 <!-- Hero -->
-<section class="relative min-h-[90vh] flex items-center justify-center hero-glow overflow-hidden pt-14">
+<section class="relative min-h-[90vh] flex items-center justify-center hero-glow pt-14">
+  <!-- Floating orbs -->
+  <div class="hero-orb w-[400px] h-[400px] bg-blue-500/25 top-[5%] left-[10%]" style="animation-delay: 0s;"></div>
+  <div class="hero-orb w-[300px] h-[300px] bg-purple-500/20 top-[25%] right-[5%]" style="animation-delay: 2s;"></div>
+  <div class="hero-orb w-[350px] h-[350px] bg-cyan-500/15 bottom-[10%] left-[35%]" style="animation-delay: 4s;"></div>
   <div class="relative text-center px-6 max-w-3xl mx-auto">
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/[0.06] bg-white/[0.02] text-[12px] text-gray-500 mb-8">
       <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
@@ -186,15 +228,39 @@
       </div>
     </div>
 
-    <!-- Agent & Skill -->
-    <div class="mt-8 grid md:grid-cols-2 gap-3">
-      <div class="code-block rounded-xl p-4">
-        <p class="text-gray-500 text-[11px] font-medium uppercase tracking-wider mb-2">Claude Code Agent</p>
-        <p class="font-mono text-[13px] text-gray-300">Use the <span class="text-accent">e2e-tester</span> agent for comprehensive browser testing via Glance MCP tools.</p>
+    <!-- Agent & Skill Install -->
+    <div class="mt-10 mb-2">
+      <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-4 text-center">Claude Code Extensions</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-3">
+      <div class="code-block rounded-xl overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-2 border-b border-white/[0.04]">
+          <div class="flex items-center gap-2">
+            <svg class="w-3.5 h-3.5 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0"/></svg>
+            <span class="text-gray-400 text-xs font-medium">E2E Browser Tester Agent</span>
+          </div>
+          <button onclick="copyCode(this)" class="text-gray-600 hover:text-gray-400 text-xs transition font-mono">copy</button>
+        </div>
+        <div class="p-4 font-mono text-[12px] leading-relaxed">
+          <p class="text-gray-600"># Install agent for Claude Code</p>
+          <p class="text-gray-300"><span class="text-green-400">curl</span> -o ~/.claude/agents/glance-e2e-tester.md \</p>
+          <p class="text-gray-400 pl-2 text-[11px]">https://raw.githubusercontent.com/DebugBase/glance/main/agents/e2e-browser-tester.md</p>
+        </div>
       </div>
-      <div class="code-block rounded-xl p-4">
-        <p class="text-gray-500 text-[11px] font-medium uppercase tracking-wider mb-2">Claude Code Skill</p>
-        <p class="font-mono text-[13px] text-gray-300">Run <span class="text-green-400">/glance-test</span> to quickly E2E test any URL with screenshots and assertions.</p>
+      <div class="code-block rounded-xl overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-2 border-b border-white/[0.04]">
+          <div class="flex items-center gap-2">
+            <svg class="w-3.5 h-3.5 text-green-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+            <span class="text-gray-400 text-xs font-medium">/glance-test Skill</span>
+          </div>
+          <button onclick="copyCode(this)" class="text-gray-600 hover:text-gray-400 text-xs transition font-mono">copy</button>
+        </div>
+        <div class="p-4 font-mono text-[12px] leading-relaxed">
+          <p class="text-gray-600"># Install skill for Claude Code</p>
+          <p class="text-gray-300"><span class="text-green-400">mkdir</span> -p ~/.claude/skills/glance-test</p>
+          <p class="text-gray-300"><span class="text-green-400">curl</span> -o ~/.claude/skills/glance-test/SKILL.md \</p>
+          <p class="text-gray-400 pl-2 text-[11px]">https://raw.githubusercontent.com/DebugBase/glance/main/skills/glance-test/SKILL.md</p>
+        </div>
       </div>
     </div>
   </div>
