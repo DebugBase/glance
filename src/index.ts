@@ -3,7 +3,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
 import { getConfig } from './config.js';
-import { launchBrowser } from './browser/manager.js';
+import { setConfig } from './browser/manager.js';
 import { initStorage } from './session/storage.js';
 import { initRecorder } from './session/recorder.js';
 import { initVisual } from './visual/compare.js';
@@ -28,11 +28,8 @@ async function main() {
   initRecorder(config);
   initVisual(config.sessionsDir);
 
-  // EAGER LAUNCH: Start browser immediately
-  console.error('[glance] Launching browser (eager mode)...');
-  launchBrowser(config).catch((err) => {
-    console.error('[glance] Browser launch error:', err);
-  });
+  // LAZY LAUNCH: Browser starts on first tool call via ensureBrowser()
+  setConfig(config);
 
   // Create MCP server
   const server = new McpServer({

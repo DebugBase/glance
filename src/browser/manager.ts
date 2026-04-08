@@ -86,6 +86,10 @@ export async function launchBrowser(config: BrowserConfig): Promise<void> {
   }
 }
 
+export function setConfig(config: BrowserConfig): void {
+  _config = config;
+}
+
 export async function ensureBrowser(): Promise<void> {
   if (!_browser || !_browser.isConnected()) {
     _readyPromise = new Promise((r) => { _readyResolve = r; });
